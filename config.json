@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "Compensándote",
+    "version": "1.0.0",
+    "author": "Juan David Velasco Valderrama"
+  },
+  "theme": {
+    "name": "tokyo_night",
+    "mode": "dark"
+  }
+}

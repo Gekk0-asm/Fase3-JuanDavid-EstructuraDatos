@@ -1,0 +1,79 @@
+{
+  "name": "tokyo_night",
+  "mode": {
+    "dark": {
+      "bg": "#1a1b26",
+      "fg": "#c0caf5",
+      "primary": "#7aa2f7",
+      "secondary": "#24283b",
+      "accent": "#bb9af7",
+
+      "red": "#f7768e",
+      "orange": "#ff9e64",
+      "yellow": "#e0af68",
+      "green": "#9ece6a",
+      "teal": "#73dacb",
+      "cyan": "#7dcfff",
+      "blue": "#7aa2f7",
+      "purple": "#bb9af7",
+      "pink": "#f7768e",
+
+      "comment": "#565f89",
+      "selection": "#414868",
+      "border": "#414868",
+      "muted": "#a9b1d6",
+      "subtle": "#9aa5ce",
+      "bright": "#b4f9f8"
+    },
+
+    "storm": {
+      "bg": "#24283b",
+      "fg": "#c0caf5",
+      "primary": "#7aa2f7",
+      "secondary": "#1f2335",
+      "accent": "#bb9af7",
+
+      "red": "#f7768e",
+      "orange": "#ff9e64",
+      "yellow": "#e0af68",
+      "green": "#9ece6a",
+      "teal": "#73dacb",
+      "cyan": "#7dcfff",
+      "blue": "#7aa2f7",
+      "purple": "#bb9af7",
+      "pink": "#f7768e",
+
+      "comment": "#565f89",
+      "selection": "#364a82",
+      "border": "#414868",
+      "muted": "#a9b1d6",
+      "subtle": "#9aa5ce",
+      "bright": "#b4f9f8"
+    },
+
+    "light": {
+      "bg": "#e6e7ed",
+      "fg": "#343b58",
+      "primary": "#2959aa",
+      "secondary": "#d0d5e3",
+      "accent": "#5a3e8e",
+
+      "red": "#8c4351",
+      "orange": "#965027",
+      "yellow": "#8f5e15",
+      "green": "#385f0d",
+      "teal": "#33635c",
+      "cyan": "#006c86",
+      "blue": "#2959aa",
+      "purple": "#5a3e8e",
+      "pink": "#8c4351",
+
+      "comment": "#6c6e75",
+      "selection": "#c4c8da",
+      "border": "#b8bccb",
+      "muted": "#40434f",
+      "subtle": "#634f30",
+      "bright": "#006c86"
+    }
+  }
+}
