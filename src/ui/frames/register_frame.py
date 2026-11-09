@@ -10,15 +10,16 @@ class RegisterFrame(BaseFrame):
         super().__init__(parent, controller)
         self.manager = DataStructureManager()
         self.apply_bg()
-        self._configure_ttk_styles() # Configurar estilos de ttk primero
+        self._configure_ttk_styles()
         self._build()
 
     def _configure_ttk_styles(self):
-        """Configura los colores para los widgets de ttk (Treeview, Combobox)"""
+        """Configura los colores para los widgets de ttk (Treeview, Combobox, Spinbox)"""
         style = ttk.Style()
-        style.theme_use("default")
+        # Usar 'clam' permite personalizar mejor los colores en Windows/macOS
+        style.theme_use("clam")
         
-        # Estilo del Treeview
+        # --- Estilo del Treeview ---
         style.configure(
             "Treeview",
             background=self.theme["bg"],
@@ -36,15 +37,43 @@ class RegisterFrame(BaseFrame):
         )
         style.map("Treeview", background=[("selected", self.theme["selection"])])
         
-        # Estilo del Combobox
+        # --- Estilo del Combobox (Caja principal) ---
         style.configure(
             "TCombobox",
             fieldbackground=self.theme["secondary"],
             background=self.theme["secondary"],
             foreground=self.theme["fg"],
             arrowcolor=self.theme["fg"],
-            borderwidth=0
+            borderwidth=0,
+            padding=5
         )
+        # Forzar los colores cuando está en modo "readonly" (evita el fondo gris claro)
+        style.map(
+            "TCombobox",
+            fieldbackground=[("readonly", self.theme["secondary"])],
+            foreground=[("readonly", self.theme["fg"])],
+            selectbackground=[("readonly", self.theme["selection"])],
+            selectforeground=[("readonly", self.theme["fg"])],
+            background=[("readonly", self.theme["secondary"])]
+        )
+
+        # --- Estilo del Spinbox ---
+        style.configure(
+            "TSpinbox",
+            fieldbackground=self.theme["secondary"],
+            background=self.theme["secondary"],
+            foreground=self.theme["fg"],
+            arrowcolor=self.theme["fg"],
+            borderwidth=0,
+        )
+        
+        # --- Estilo de la LISTA desplegable del Combobox ---
+        # El dropdown es un Listbox clásico, no toma ttk.Style, así que usamos option_add
+        self.app.option_add("*TCombobox*Listbox.background", self.theme["bg"])
+        self.app.option_add("*TCombobox*Listbox.foreground", self.theme["fg"])
+        self.app.option_add("*TCombobox*Listbox.selectBackground", self.theme["selection"])
+        self.app.option_add("*TCombobox*Listbox.selectForeground", self.theme["fg"])
+        self.app.option_add("*TCombobox*Listbox.font", ("Segoe UI", 10))
 
     def _build(self):
         # Título
@@ -75,6 +104,7 @@ class RegisterFrame(BaseFrame):
             values=["Pila", "Cola", "Lista"],
             state="readonly",
             width=15,
+            font=("Segoe UI", 10)
         )
         self.structure_combo.pack(side=tk.LEFT, padx=5)
         self.structure_combo.bind("<<ComboboxSelected>>", self._on_structure_change)
@@ -93,7 +123,7 @@ class RegisterFrame(BaseFrame):
         # Formulario
         form_frame = tk.Frame(self, bg=self.theme["bg"])
         form_frame.pack(fill="x", padx=10, pady=5)
-        form_frame.columnconfigure(3, weight=1) # Para que los campos se expandan
+        form_frame.columnconfigure(3, weight=1) 
 
         # --- Fila 1: Tipo ID, Número ID ---
         tk.Label(form_frame, text="Tipo ID:", bg=self.theme["bg"], fg=self.theme["fg"]).grid(row=0, column=0, sticky="e", pady=3)
@@ -104,6 +134,7 @@ class RegisterFrame(BaseFrame):
             values=["CC", "CE", "NUIP", "PAS"],
             state="readonly",
             width=10,
+            font=("Segoe UI", 10)
         )
         self.id_type_combo.grid(row=0, column=1, padx=5, pady=3, sticky="w")
 
@@ -160,6 +191,7 @@ class RegisterFrame(BaseFrame):
                 "Medicina preventiva",
             ],
             state="readonly",
+            font=("Segoe UI", 10)
         )
         self.service_combo.grid(row=2, column=3, padx=5, pady=3, sticky="w")
 
@@ -195,15 +227,14 @@ class RegisterFrame(BaseFrame):
         date_frame = tk.Frame(form_frame, bg=self.theme["bg"])
         date_frame.grid(row=5, column=1, columnspan=3, sticky="w", padx=5, pady=3)
         
-        spin_opts = {"bg": self.theme["secondary"], "fg": self.theme["fg"], "buttonbackground": self.theme["selection"], "relief": "flat"}
-        
-        self.day_spin = tk.Spinbox(date_frame, from_=1, to=31, width=3, **spin_opts)
+        # Usamos ttk.Spinbox para que tome el estilo configurado arriba
+        self.day_spin = ttk.Spinbox(date_frame, from_=1, to=31, width=4, font=("Segoe UI", 10))
         self.day_spin.pack(side=tk.LEFT)
         tk.Label(date_frame, text="/", bg=self.theme["bg"], fg=self.theme["fg"]).pack(side=tk.LEFT, padx=2)
-        self.month_spin = tk.Spinbox(date_frame, from_=1, to=12, width=3, **spin_opts)
+        self.month_spin = ttk.Spinbox(date_frame, from_=1, to=12, width=4, font=("Segoe UI", 10))
         self.month_spin.pack(side=tk.LEFT)
         tk.Label(date_frame, text="/", bg=self.theme["bg"], fg=self.theme["fg"]).pack(side=tk.LEFT, padx=2)
-        self.year_spin = tk.Spinbox(date_frame, from_=2000, to=2100, width=5, **spin_opts)
+        self.year_spin = ttk.Spinbox(date_frame, from_=2000, to=2100, width=6, font=("Segoe UI", 10))
         self.year_spin.pack(side=tk.LEFT)
         
         # Valores por defecto
@@ -353,7 +384,6 @@ class RegisterFrame(BaseFrame):
     def _delete(self):
         structure = self.structure_var.get()
         if structure == "Lista":
-            # Corregido: simpledialog en lugar de tk.simpledialog
             id_str = simpledialog.askstring("Eliminar", "Ingrese el número de identificación:")
             if not id_str:
                 return
@@ -403,5 +433,5 @@ class RegisterFrame(BaseFrame):
         self.app.title("Caja Compensándote - Control de Afiliados")
         self.app.geometry("1150x680")
         self.app.resizable(False, False)
-        self.app.config(menu="") # Quita el menubar del login
+        self.app.config(menu="")
         self._refresh_tree()
