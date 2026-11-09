@@ -97,8 +97,8 @@ class LoginFrame(BaseFrame):
         messagebox.showinfo(
             "Acerca de",
             "Curso: Estructura de Datos\n"
-            "Estudiante: Hernando Arbey Robles Puentes\n"
-            "Grupo: 301305_XXX",
+            "Estudiante: Juan David Velasco Valderrama\n"
+            "Grupo: 301305A_2204",
         )
 
     def on_enter(self):
